@@ -1,3 +1,9 @@
+-- 1. Criar o banco de dados
+CREATE DATABASE habitflow;
+
+-- Conecte-se ao banco habitflow e depois rode:
+
+-- 2. Criar as tabelas
 CREATE TABLE IF NOT EXISTS habits (
     id          BIGSERIAL    PRIMARY KEY,
     name        VARCHAR(255) NOT NULL,

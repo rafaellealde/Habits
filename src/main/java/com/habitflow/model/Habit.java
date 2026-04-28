@@ -1,23 +1,21 @@
-// Entidade principal do domínio.
-// Aqui devem ser adicionados: validações de campos (ex: nome não nulo/vazio),
-// lógica de cálculo de streaks, e mapeamento completo com a tabela "habits" do banco.
 package com.habitflow.model;
 
+import com.habitflow.exception.HabitValidationException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * Representa um Hábito no sistema.
- * SRP: esta classe é responsável apenas por modelar os dados de um hábito.
  */
 public class Habit {
 
     private Long id;
     private String name;
     private String description;
-    private String frequency; // ex: "DAILY", "WEEKLY"
+    private String frequency;
     private LocalDate createdAt;
     private final List<Execution> executions;
 
@@ -34,67 +32,65 @@ public class Habit {
         this.executions = new ArrayList<>();
     }
 
-    // --- Getters ---
-
-    public Long getId() {
-        return id;
+    // --- Validação (Domain Logic) ---
+    
+    public void validate() {
+        if (name == null || name.trim().isEmpty()) {
+            throw new HabitValidationException("name", "O nome do hábito não pode ser vazio.", "INVALID_NAME");
+        }
+        if (frequency == null || frequency.trim().isEmpty()) {
+            throw new HabitValidationException("frequency", "A frequência é obrigatória.", "INVALID_FREQUENCY");
+        }
     }
 
-    public String getName() {
-        return name;
+    // --- Lógica de Streaks ---
+
+    public int calculateCurrentStreak() {
+        if (executions.isEmpty()) return 0;
+
+        List<Execution> sorted = new ArrayList<>(executions);
+        sorted.sort(Comparator.comparing(Execution::getExecutedAt).reversed());
+
+        int streak = 0;
+        LocalDate lastDate = LocalDate.now();
+
+        for (Execution e : sorted) {
+            LocalDate execDate = e.getExecutedAt().toLocalDate();
+            if (execDate.equals(lastDate) || execDate.equals(lastDate.minusDays(1))) {
+                streak++;
+                lastDate = execDate;
+            } else {
+                break;
+            }
+        }
+        return streak;
     }
 
-    public String getDescription() {
-        return description;
+    // --- Getters e Setters ---
+
+    public Long getId() { return id; }
+
+    // --- AQUI ESTAVA A FALTA! ---
+    public void setId(Long id) { 
+        this.id = id; 
     }
 
-    public String getFrequency() {
-        return frequency;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public LocalDate getCreatedAt() {
-        return createdAt;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    /** Retorna visão imutável da lista interna (encapsulamento de coleção). */
+    public String getFrequency() { return frequency; }
+    public void setFrequency(String frequency) { this.frequency = frequency; }
+
+    public LocalDate getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDate createdAt) { this.createdAt = createdAt; }
+
     public List<Execution> getExecutions() {
         return Collections.unmodifiableList(executions);
     }
 
-    // --- Setters (apenas para campos escalares, não para coleções) ---
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setFrequency(String frequency) {
-        this.frequency = frequency;
-    }
-
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    // --- Mutadores de coleção (sem setList!) ---
-
-    public void addExecution(Execution execution) {
-        this.executions.add(execution);
-    }
-
-    public void removeExecution(Execution execution) {
-        this.executions.remove(execution);
-    }
-
-    @Override
-    public String toString() {
-        return "Habit{id=" + id + ", name='" + name + "', frequency='" + frequency + "'}";
-    }
+    public void addExecution(Execution execution) { this.executions.add(execution); }
+    public void removeExecution(Execution execution) { this.executions.remove(execution); }
 }
