@@ -28,7 +28,7 @@ CREATE DATABASE habitflow;
 ```
 ### 2. Configuração de Credenciais
 As credenciais padrão estão definidas em DatabaseConfig.java:
- * **URL:** jdbc:postgresql://localhost:5432/habitflow
+ * **URL:** jdbc:postgresql://localhost:8080/habitflow
  * **User:** postgres
  * **Password:** admin123
 ### 3. Compilação e Execução
@@ -43,6 +43,11 @@ A API ficará disponível em: http://localhost:8080/habits.
 |---|---|---|
 | **GET** | /habits | Lista todos os hábitos (ordenados por data de criação). |
 | **POST** | /habits | Cria um novo hábito. |
-| **PUT** | /habits/{id} | Atualiza um hábito existente. |
-| **DELETE** | /habits/{id} | Remove um hábito pelo ID. |
+| **PUT** | /habits/ | Atualiza um hábito existente. |
+| **DELETE** | /habits/ | Remove um hábito pelo ID. |
 *Este projeto foi desenvolvido como um scaffolding robusto para sistemas de controlo de hábitos.*
+
+Desenvolvedores:
+Nicolas Jeremias
+Victor Reis
+Rafael Leal
