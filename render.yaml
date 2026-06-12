@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: habitflow-api
+    runtime: docker
+    plan: free
+    # Render injeta PORT automaticamente; App.java já lê essa variável
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: habitflow-db
+          property: connectionString
+    healthCheckPath: /habits
+
+databases:
+  - name: habitflow-db
+    plan: free
+    databaseName: habitflow
+    user: habitflow_user

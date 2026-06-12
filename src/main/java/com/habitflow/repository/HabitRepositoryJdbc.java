@@ -68,12 +68,13 @@ public class HabitRepositoryJdbc implements HabitRepository {
         try (Connection conn = databaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
+            if (habit.getCreatedAt() == null) {
+                habit.setCreatedAt(java.time.LocalDate.now());
+            }
             stmt.setString(1, habit.getName());
             stmt.setString(2, habit.getDescription());
             stmt.setString(3, habit.getFrequency());
-            stmt.setDate(4, habit.getCreatedAt() != null
-                    ? Date.valueOf(habit.getCreatedAt())
-                    : Date.valueOf(java.time.LocalDate.now()));
+            stmt.setDate(4, Date.valueOf(habit.getCreatedAt()));
 
             stmt.executeUpdate();
 
