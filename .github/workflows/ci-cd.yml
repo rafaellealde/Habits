@@ -1,0 +1,32 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build with Maven
+        run: mvn clean verify
+
+      # Aqui seria adicionado o script de deploy para Render ou Railway.
+      # Exemplo de chamada de webhook para trigger de deploy:
+      # - name: Trigger Deploy
+      #   run: curl -X POST ${{ secrets.DEPLOY_WEBHOOK_URL }}
