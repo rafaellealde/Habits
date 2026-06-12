@@ -197,4 +197,9 @@ def main(page: ft.Page):
     load_habits()
 
 
-ft.run(main, view=ft.AppView.WEB_BROWSER, port=8550)
+import os as _os
+
+_port = int(_os.environ.get("PORT", "8550"))
+# No Render (RENDER=true), não tenta abrir browser no servidor
+_view = None if _os.environ.get("RENDER") else ft.AppView.WEB_BROWSER
+ft.run(main, view=_view, port=_port)

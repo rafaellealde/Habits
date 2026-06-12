@@ -1,6 +1,16 @@
 # Maven
 target/
 
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
 # IDE
 .idea/
 *.iml
@@ -14,3 +24,6 @@ Thumbs.db
 # Env
 .env
 .env.local
+
+# Docs gerados por ferramentas (planejamento interno, não é código)
+docs/

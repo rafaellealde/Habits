@@ -1,0 +1,30 @@
+# Frontend Python — não faz parte do build Java
+frontend/
+
+# Docs de planejamento
+docs/
+
+# CI/CD e infra-as-code — só pertencem ao VCS
+.github/
+render.yaml
+docker-compose.yml
+
+# SQL de init local — SchemaInitializer cuida do schema no startup
+init.sql
+schema.sql
+
+# Markdown e configuração de agentes
+*.md
+CLAUDE.md
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git internals
+.git/
+.gitignore
