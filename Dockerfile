@@ -8,6 +8,6 @@ RUN mvn clean package -DskipTests
 # Estágio 2: Run
 FROM eclipse-temurin:17-jre
 WORKDIR /app
-COPY --from=build /app/target/habitflow-api-1.0.0-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/habitflow-api-1.0.0-SNAPSHOT-jar-with-dependencies.jar app.jar
 EXPOSE 8080
 CMD ["java", "-jar", "app.jar"]
