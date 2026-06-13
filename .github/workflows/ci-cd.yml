@@ -24,6 +24,7 @@ jobs:
           cache: maven
 
       - name: Build with Maven
+        working-directory: backend
         run: mvn clean verify
 
       # Aqui seria adicionado o script de deploy para Render ou Railway.
