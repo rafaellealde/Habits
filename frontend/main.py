@@ -195,4 +195,6 @@ def main(page: ft.Page):
 
 
 if __name__ == "__main__":
-    ft.app(target=main, view=ft.AppView.WEB_BROWSER, port=8550)
+    # Lê a porta que a nuvem do Render exige, ou usa 8000 por padrão localmente
+    port_env = int(os.getenv("PORT", 8000))
+    ft.app(target=main, view=ft.AppView.WEB_BROWSER, port=port_env)
